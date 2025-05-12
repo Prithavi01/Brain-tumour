@@ -1,78 +1,74 @@
-Tumor Classification using CNN & Gradio
+🧠 Brain Tumor Classification System
+This project implements a Brain Tumor Classification System using Convolutional Neural Networks (CNNs) to detect tumor types from MRI images. It uses a custom-trained model and features an interactive Gradio UI for image-based predictions.
 
-This project is a deep learning-based web application for classifying brain MRI images into four categories:
+🔍 Features
+✅ Classifies brain MRI scans into:
 
 Glioma
+
 Meningioma
+
 No Tumor
-Pituitary Tumor
-It uses TensorFlow/Keras for model training and Gradio for a user-friendly web interface.
-🚀 Demo
-Upload a brain MRI image to the interface, and the model will predict the type of tumor.
-![image](https://github.com/user-attachments/assets/019b5649-aaf0-4602-9063-4ed08894497c)
-📂 Dataset
-Make sure you have the dataset structured like this:
 
-/Training/ ├── glioma/ ├── meningioma/ ├── notumor/ └── pituitary/
+Pituitary
 
-kotlin
+✅ Built with TensorFlow/Keras for model architecture and training
 
-You can place this dataset in your Google Drive and set the path in DATASET_PATH variable accordingly:
-DATASET_PATH = '/content/drive/MyDrive/braintumor/Training'
-🧠 Model Architecture
-The CNN model consists of:
+✅ Uses OpenCV for image preprocessing
 
-3 Convolutional Blocks
+✅ Applies LabelBinarizer for multi-class output encoding
 
-Conv2D → MaxPooling2D → BatchNormalization
+✅ Provides an intuitive Gradio interface for drag-and-drop predictions
 
-Global Average Pooling
+🧠 How It Works
+Load and preprocess brain MRI images (resized to 128x128).
 
-Dense (128) + Dropout
+Train a CNN model using layers like:
 
-Output Layer (Softmax)
+Conv2D
 
-🛠 Requirements
-Install the required Python packages:
+MaxPooling2D
 
+Dropout
 
-pip install tensorflow opencv-python gradio scikit-learn
-If you're running on Google Colab, make sure to mount Google Drive if your dataset is stored there.
+Predict tumor type from new MRI images using the trained model.
 
-🧪 Training
-Train the model with:
+Display results with confidence scores via the Gradio interface.
 
-model.fit(X_train, y_train, batch_size=16, validation_data=(X_test, y_test), epochs=10)
-🖼 Gradio Interface
-After training, launch the Gradio app with:
+📁 Requirements
+Make sure you have Python 3.x installed and the following libraries:
 
+pip install tensorflow opencv-python numpy scikit-learn gradio
+If running in Google Colab, also install:
 
-interface.launch()
-You’ll get a public link to test your model in a browser.
+pip install google-colab
+🚀 Usage
+Option 1: Run in Google Colab
+Upload your dataset to your Google Drive.
 
-🔮 Prediction
-Each uploaded image is:
+Mount Google Drive in your Colab notebook:
 
-Resized to 128x128
+from google.colab import drive
+drive.mount('/content/drive')
+Ensure your dataset path is correctly referenced (e.g., /content/drive/MyDrive/brain_tumor_dataset).
 
-Normalized
+Option 2: Run Locally
+Clone/download the project and place the dataset in a directory:
 
-Passed through the trained model
+brain_tumor_classification/
+├── model/
+├── dataset/
+│   ├── glioma/
+│   ├── meningioma/
+│   ├── notumor/
+│   └── pituitary/
+├── main.py
+└── ...
+Run the script:
 
-Top 4 class probabilities are shown
+python main.py
+🖼️ Gradio UI
+Once the model is trained or loaded, Gradio will launch an interactive web interface for you to upload an image and view predictions:
 
-📈 Performance
-You can view model training accuracy/loss by checking the history object returned by model.fit().
-
-📌 Notes
-Ensure your images are MRI brain scans (preferably clean and centered).
-
-Training time may vary depending on the size of the dataset and environment (GPU recommended).
-
-You can save the model using model.save("brain_tumor_model.h5") and load it later for inference.
-
-📃 License
-This project is open-source and free to use under the MIT License.
-
-✨ Author
-Prithavi – GitHub
+import gradio as gr
+gr.Interface(fn=predict_fn, inputs="image", outputs="label").launch()
